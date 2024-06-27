@@ -1,8 +1,27 @@
-<h2>Catalogo de productos</h2>
-<catalog [products]="products" />
+<navbar [items]="items" (openEventEmitter)="openCart()"/>
+<div class="container">
 
-@if (items.length > 0) {
-    <cart [items]="items"/>
-}@else {
-    <div class="alert alert-warning">No hay elementos en el carro!</div>
-}
+    <h2>Catalogo de productos</h2>
+    <!-- @if (!showCart) {
+          <button class="btn btn-info btn-sm" (click)="openCart()">show cart {{items.length}}</button>
+      }@else {
+          <button class="btn btn-danger btn-sm" (click)="openCart()">close cart {{items.length}}</button>
+      } -->
+    <div class="row">
+        <div [className]="showCart?'col-9':'false'">
+            <catalog [products]="products"
+                (productEventEmitter)="onAddCart($event)" />
+        </div>
+
+        @if (showCart) {
+        <div class="col-3">
+            @if (items.length > 0) {
+            <cart [items]="items" [total]="total"
+                (idProductEventEmitter)="onDeleteCart($event)" />
+            }@else {
+            <div class="alert alert-warning">No hay elementos en el carro!</div>
+            }
+        </div>
+        }
+    </div>
+</div>
